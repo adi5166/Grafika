@@ -8,6 +8,7 @@ var uPMatrix;
 var vertexPositionBuffer;
 var vertexColorBuffer;
 var ile=750;
+var animacja=false;
 function MatrixMul(a,b) //Mnożenie macierzy
 {
   let c = [
@@ -419,8 +420,6 @@ function startGL()
  
 
   //console.log(vertexPosition);
-  
-
   //[vertexPosition, vertexColor, vertexCoords, vertexNormal] = CreateShpere(0,0,0,2, 6, 12); 
   [vertexPosition, vertexVelocity, vertexColor, vertexAge, Age] = CreatePointCloud(sx,ex,sy,ey,sz,ez,svx,evx,svy,evy,svz,evz,sa,ea,ile);
   
@@ -448,6 +447,7 @@ function startGL()
    0                         ,0                           ,-(zFar+zNear)/(zFar-zNear)  , -1,
    0                         ,0                           ,-(2*zFar*zNear)/(zFar-zNear) ,0.0,
   ];
+  alert("Animacja: Spacja");
   Tick();
 } 
 //let angle = 45.0; //Macierz transformacji świata - określenie położenia kamery 
@@ -463,6 +463,8 @@ var CloudPositionZ = 0.0;
 
 function Tick()
 { 
+
+if(animacja) angleY+=1.5;
   [vertexPosition, vertexVelocity, vertexColor, vertexAge,Age] = updatePointCloud(vertexPosition,vertexVelocity,vertexColor,vertexAge,Age,ile,0.01, sx,ex,sy,ey,sz,ez,svx,evx,svy,evy,svz,evz,sa,ea);
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPosition), gl.STATIC_DRAW);
@@ -540,6 +542,8 @@ function handlekeydown(e)
  if(e.keyCode==69) angleZ=angleZ-1.0;
  //alert(e.keyCode);
  //alert(angleX);
+ 
+ if(e.keyCode==32) animacja=!animacja;
  
  //U I O J K L
  if(e.keyCode==76) KameraPositionX=KameraPositionX+0.1;
